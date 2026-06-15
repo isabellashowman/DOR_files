@@ -1,7 +1,7 @@
 # code to load and wrangle data
 library(tidyverse)
 library(readxl)
-library(rMR)
+source("helper_funs.R")
 
 # import data
 filename <- "CleanedOxygenThresholds.xlsx"
@@ -60,9 +60,4 @@ thedata$p_crit_kpa[pct_index] <- DO.unit.convert( x = thedata$p_crit[pct_index],
                                                   salinity.units = "uS",
                                                   temp.C = thedata$temperature_c[pct_index])
 
-# convert temperature to inverse temperature
-#Use stefan boltzmann to standardize
-kb <- 8.617333E-5
-Tref <- 15
-kelvin <- function(x) 273.15 + x
-thedata$inverse_temperature <- 1  / kb * (1 / kelvin(thedata$temperature_c) - 1 / kelvin(Tref) )
+# fit linear model
